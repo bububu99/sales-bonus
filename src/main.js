@@ -22,13 +22,13 @@ function calculateSimpleRevenue(purchase, _product) {
  */
 function calculateBonusByProfit(index, total, seller) {
     if (index === 0) {
-        return 15;
+        return 0.15 * seller.profit;
     } else if (index === 1 || index === 2) {
-        return 10;
+        return 0.1 * seller.profit;
     } else if (index === total - 1) {
         return 0;
     } else {
-        return 5;
+        return 0.05 * seller.profit;
     }
 
 }
@@ -43,6 +43,7 @@ function analyzeSalesData(data, options) {
     if (!data
         || !Array.isArray(data.sellers)
         || data.sellers.length === 0
+        || !Array.isArray(data.purchase_records)
     ) {
         throw new Error('Некорректные входные данные');
     }
@@ -103,7 +104,7 @@ function analyzeSalesData(data, options) {
 
 
     sellerStats.forEach((seller, index) => {
-        seller.bonus = (calculateBonusByProfit(index, sellerStats.length, seller) / 100) * seller.profit;
+        seller.bonus = calculateBonusByProfit(index, sellerStats.length, seller); 
 
         const productsArray = Object.entries(seller.products_sold);
         productsArray.sort((productA, productB) =>
