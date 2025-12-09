@@ -9,8 +9,8 @@
  */
 function calculateSimpleRevenue(purchase, _product) {
     const discount = 1 - (purchase.discount / 100);
-    const preRevenue = purchase.sale_price * purchase.quantity * discount;
-    return +(preRevenue).toFixed(2);
+    return purchase.sale_price * purchase.quantity * discount;
+    
     // @TODO: Расчет выручки от операции ++
 }
 
@@ -90,7 +90,7 @@ function analyzeSalesData(data, options) {
             const revenue = calculateSimpleRevenue(item, product);
             const itemProfit = revenue - cost;
 
-            seller.revenue += revenue;
+            seller.revenue += +(revenue).toFixed(2);
             seller.profit += itemProfit;
 
             // Учёт количества проданных товаров
