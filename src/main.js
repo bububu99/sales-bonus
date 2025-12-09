@@ -9,7 +9,8 @@
  */
 function calculateSimpleRevenue(purchase, _product) {
     const discount = 1 - (purchase.discount / 100);
-    return purchase.sale_price * purchase.quantity * discount;
+    const preRevenue = purchase.sale_price * purchase.quantity * discount;
+    return +(preRevenue).toFixed(2);
     // @TODO: Расчет выручки от операции ++
 }
 
@@ -41,9 +42,10 @@ function calculateBonusByProfit(index, total, seller) {
  */
 function analyzeSalesData(data, options) {
     if (!data
-        || !Array.isArray(data.sellers)
-        || data.sellers.length === 0
+        || !Array.isArray(data.sellers) 
+        || !Array.isArray(data.products) 
         || !Array.isArray(data.purchase_records)
+        || data.sellers.length === 0
     ) {
         throw new Error('Некорректные входные данные');
     }
